@@ -1,9 +1,3 @@
-declare module '@capacitor/core' {
-  interface PluginRegistry {
-    Amplitude: AmplitudePlugin;
-  }
-}
-
 type PropertiesObject = Record<string, any>;
 
 type RevenueProperties = {

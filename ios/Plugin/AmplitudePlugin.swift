@@ -1,14 +1,13 @@
-import Amplitude
 import Capacitor
 import Foundation
+import Amplitude
 
 /**
  * Please read the Capacitor iOS Plugin Development Guide
  * here: https://capacitorjs.com/docs/plugins/ios
  */
-@objc(CapacitorAmplitude)
-public class CapacitorAmplitude: CAPPlugin {
-    override public func load() {}
+@objc(AmplitudePlugin)
+public class AmplitudePlugin: CAPPlugin {
 
     @objc
     func initialize(_ call: CAPPluginCall) {
@@ -204,7 +203,7 @@ public class CapacitorAmplitude: CAPPlugin {
         guard let instanceName = call.getString("instanceName") else {
             return call.reject("Missing instanceName argument")
         }
-        guard let userProperties = call.getObject("userProperties") as? [String : [String : NSObject]] else {
+        guard let userProperties = call.getObject("userProperties") as? [String: [String: NSObject]] else {
             return call.reject("Missing userProperties argument")
         }
         let identify = createIdentify(userProperties)
@@ -223,7 +222,7 @@ public class CapacitorAmplitude: CAPPlugin {
         guard let groupName = call.getObject("groupName") as NSObject? else {
             return call.reject("Missing groupName argument")
         }
-        guard let userProperties = call.getObject("userProperties") as? [String : [String : NSObject]] else {
+        guard let userProperties = call.getObject("userProperties") as? [String: [String: NSObject]] else {
             return call.reject("Missing userProperties argument")
         }
         let identify = createIdentify(userProperties)
@@ -320,7 +319,7 @@ public class CapacitorAmplitude: CAPPlugin {
         guard let instanceName = call.getString("instanceName") else {
             return call.reject("Missing instanceName argument")
         }
-        guard let eventUploadMaxBatchSize = call.get("eventUploadMaxBatchSize", Int32.self) else {
+        guard let eventUploadMaxBatchSize = call.options["eventUploadMaxBatchSize"] as? Int32 else {
             return call.reject("Missing eventUploadMaxBatchSize argument")
         }
         Amplitude.instance(withName: instanceName).updateEventUploadMaxBatchSize(eventUploadMaxBatchSize)
@@ -332,7 +331,7 @@ public class CapacitorAmplitude: CAPPlugin {
         guard let instanceName = call.getString("instanceName") else {
             return call.reject("Missing instanceName argument")
         }
-        guard let eventUploadPeriodMillis = call.get("eventUploadPeriodMillis", Int32.self) else {
+        guard let eventUploadPeriodMillis = call.options["eventUploadPeriodMillis"] as? Int32 else {
             return call.reject("Missing eventUploadPeriodMillis argument")
         }
         Amplitude.instance(withName: instanceName).eventUploadPeriodSeconds = eventUploadPeriodMillis / 1000
@@ -344,7 +343,7 @@ public class CapacitorAmplitude: CAPPlugin {
         guard let instanceName = call.getString("instanceName") else {
             return call.reject("Missing instanceName argument")
         }
-        guard let eventUploadThreshold = call.get("eventUploadThreshold", Int32.self) else {
+        guard let eventUploadThreshold = call.options["eventUploadThreshold"] as? Int32 else {
             return call.reject("Missing eventUploadThreshold argument")
         }
         Amplitude.instance(withName: instanceName).eventUploadThreshold = eventUploadThreshold
@@ -354,10 +353,10 @@ public class CapacitorAmplitude: CAPPlugin {
     private func createRevenue(_ userProperties: [String: Any]) -> AMPRevenue {
         let revenue = AMPRevenue()
         if userProperties["productId"] != nil {
-            revenue.setProductIdentifier((userProperties["productId"] as! String))
+            revenue.setProductIdentifier(userProperties["productId"] as! String)
         }
         if userProperties["price"] != nil {
-            revenue.setPrice((userProperties["price"] as! NSNumber))
+            revenue.setPrice(userProperties["price"] as! NSNumber)
         }
         if userProperties["quantity"] != nil {
             revenue.setQuantity(userProperties["quantity"] as! Int)
@@ -365,7 +364,7 @@ public class CapacitorAmplitude: CAPPlugin {
             revenue.setQuantity(1)
         }
         if userProperties["revenueType"] != nil {
-            revenue.setRevenueType((userProperties["revenueType"] as! String))
+            revenue.setRevenueType(userProperties["revenueType"] as! String)
         }
         if userProperties["receipt"] != nil {
             revenue.setReceipt((userProperties["receipt"] as! String).data(using: .utf8))

@@ -61,3 +61,7 @@ export class AnalyticsService {
 
 
 ```
+
+## BREAKING CHANGES in 1.x.x version
+
+- Added full support for Capacitor 3 and removed compatibility with Capacitor 2
