@@ -1,7 +1,7 @@
 {
-  "name": "capacitor-amplitude",
+  "name": "capacitor3-amplitude",
   "version": "1.0.0",
-  "description": "Amplitude plugin for capacitor",
+  "description": "Amplitude plugin for capacitor3",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -38,7 +38,7 @@
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
     "swiftlint": "node-swiftlint",
     "build": "npm run clean && tsc && rollup -c rollup.config.js",
-    "clean": "rimraf ./dist",
+    "clean": "rm -rf ./dist",
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build"
   },

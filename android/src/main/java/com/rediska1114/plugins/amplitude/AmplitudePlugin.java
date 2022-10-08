@@ -1,6 +1,5 @@
 package com.rediska1114.plugins.amplitude;
 
-import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
@@ -12,11 +11,61 @@ public class AmplitudePlugin extends Plugin {
     private Amplitude implementation = new Amplitude();
 
     @PluginMethod
-    public void echo(PluginCall call) {
-        String value = call.getString("value");
+    public void init(PluginCall call) {
+        String instanceName = call.getString("instanceName");
+        String apiKey = call.getString("apiKey");
 
-        JSObject ret = new JSObject();
-        ret.put("value", implementation.echo(value));
-        call.resolve(ret);
+        implementation.init(instanceName, apiKey);
+
+        call.resolve();
     }
+
+    @PluginMethod
+    public void setUserProperties(PluginCall call) {
+        String instanceName = call.getString("instanceName");
+        Object userProperties = call.getObject("userProperties");
+
+        implementation.setUserProperties(instanceName, userProperties);
+
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void clearUserProperties(PluginCall call) {
+        String instanceName = call.getString("instanceName");
+
+        implementation.clearUserProperties(instanceName);
+
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void setUserId(PluginCall call) {
+        String instanceName = call.getString("instanceName");
+        String userId = call.getString("userId");
+
+        implementation.setUserId(instanceName, userId);
+    }
+
+    @PluginMethod
+    public logEvent(PluginCall call) {
+        String instanceName = call.getString("instanceName");
+        String eventType = call.getString("eventType");
+
+        implementation.logEvent(instanceName, eventType);
+
+        call.resolve();
+    }
+
+    @PluginMethod
+    public logEventWithProperties(PluginCall call) {
+        String instanceName = call.getString("instanceName");
+        String eventType = call.getString("eventType");
+        Object eventProperties = call.getObject("eventProperties");
+        
+        implementation.logEventWithProperties(instanceName, eventType, eventProperties);
+
+        call.resolve();
+    }
+
 }
